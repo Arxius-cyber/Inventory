@@ -7,81 +7,55 @@ use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // 📌 Tampilkan daftar supplier
     public function index()
     {
         $suppliers = Supplier::all();
         return view('suppliers.index', compact('suppliers'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // 📌 Form tambah supplier
     public function create()
     {
         return view('suppliers.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // 📌 Simpan supplier baru
     public function store(Request $request)
     {
         $request->validate([
-            'name'    => 'required|string|max:100',
-            'phone'   => 'nullable|string|max:20',
-            'address' => 'nullable|string',
+            'name' => 'required',
+            'address' => 'required',
+            'phone' => 'required',
         ]);
 
-        Supplier::create($request->only(['name', 'phone', 'address']));
-
-        return redirect()->route('suppliers.index')
-                         ->with('success', 'Supplier berhasil ditambahkan.');
+        Supplier::create($request->all());
+        return redirect()->route('suppliers.index')->with('success', 'Supplier berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Supplier $supplier)
-    {
-        return view('suppliers.show', compact('supplier'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
+    // 📌 Form edit supplier
     public function edit(Supplier $supplier)
     {
         return view('suppliers.edit', compact('supplier'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // 📌 Update supplier
     public function update(Request $request, Supplier $supplier)
     {
         $request->validate([
-            'name'    => 'required|string|max:100',
-            'phone'   => 'nullable|string|max:20',
-            'address' => 'nullable|string',
+            'name' => 'required',
+            'address' => 'required',
+            'phone' => 'required',
         ]);
 
-        $supplier->update($request->only(['name', 'phone', 'address']));
-
-        return redirect()->route('suppliers.index')
-                         ->with('success', 'Supplier berhasil diperbarui.');
+        $supplier->update($request->all());
+        return redirect()->route('suppliers.index')->with('success', 'Supplier berhasil diupdate');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // 📌 Hapus supplier
     public function destroy(Supplier $supplier)
     {
         $supplier->delete();
-
-        return redirect()->route('suppliers.index')
-                         ->with('success', 'Supplier berhasil dihapus.');
+        return redirect()->route('suppliers.index')->with('success', 'Supplier berhasil dihapus');
     }
 }
