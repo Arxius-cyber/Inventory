@@ -12,8 +12,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('id','desc')->get();
-        return response()->json($categories);
+        $categories = Category::all();
+        return view('categories.index', compact('categories'));
     }
 
     /**
@@ -21,7 +21,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     /**
@@ -34,8 +34,11 @@ class CategoryController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $category = Category::create($data);
-        return response()->json($category, 201);
+        Category::create($data);
+
+        return redirect()
+            ->route('categories.index')
+            ->with('success', 'Category berhasil ditambahkan');
     }
 
     /**
@@ -43,7 +46,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return response()->json($category);
+        return view('categories.show', compact('category'));
     }
 
     /**
@@ -51,7 +54,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('categories.edit', compact('category'));
     }
 
     /**
@@ -65,7 +68,10 @@ class CategoryController extends Controller
         ]);
 
         $category->update($data);
-        return response()->json($category);
+
+        return redirect()
+            ->route('categories.index')
+            ->with('success', 'Category berhasil diperbarui');
     }
 
     /**
@@ -74,6 +80,9 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        return response()->json(['message' => 'Category deleted']);
+
+        return redirect()
+            ->route('categories.index')
+            ->with('success', 'Category berhasil dihapus');
     }
 }

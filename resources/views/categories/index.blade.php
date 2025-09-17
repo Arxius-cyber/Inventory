@@ -1,32 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Data Categories</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 p-10">
+@include('layouts.navbar')
+@extends('layouts.app')
 
-    <h1 class="text-2xl font-bold mb-5">Daftar Categories</h1>
+@section('content')
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Daftar Kategori</h2>
+    <a href="{{ route('categories.create') }}" class="btn btn-primary">+ Tambah Kategori</a>
+</div>
 
-    <table class="min-w-full bg-white border border-gray-300 shadow-md rounded-lg">
-        <thead>
-            <tr class="bg-gray-200 text-gray-700">
-                <th class="py-2 px-4 border">ID</th>
-                <th class="py-2 px-4 border">Name</th>
-                <th class="py-2 px-4 border">Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($categories as $category)
-                <tr class="hover:bg-gray-100">
-                    <td class="py-2 px-4 border">{{ $category->id }}</td>
-                    <td class="py-2 px-4 border">{{ $category->name }}</td>
-                    <td class="py-2 px-4 border">{{ $category->description }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-</body>
-</html>
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>No</th>
+            <th>Nama Kategori</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @forelse($categories as $category)
+        <tr>
+            <td>{{ $loop->iteration }}</td>
+            <td>{{ $category->name }}</td>
+            <td>
+                <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <button onclick="return confirm('Yakin hapus data?')" class="btn btn-sm btn-danger">Hapus</button>
+                </form>
+            </td>
+        </tr>
+        @empty
+        <tr>
+            <td colspan="3" class="text-center">Belum ada data kategori</td>
+        </tr>
+        @endforelse
+    </tbody>
+</table>
+@endsection

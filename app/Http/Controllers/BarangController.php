@@ -3,86 +3,89 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\Category;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class BarangController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Tampilkan daftar barang.
      */
     public function index()
     {
-        $barangs = Barang::with(['category','supplier'])->orderBy('id','desc')->get();
-        return response()->json($barangs);
+        $barangs = Barang::with(['category','supplier'])->get();
+        return view('barangs.index', compact('barangs'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Form tambah barang.
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        $suppliers  = Supplier::all();
+        return view('barangs.create', compact('categories','suppliers'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Simpan barang baru.
      */
     public function store(Request $request)
     {
         $data = $request->validate([
             'category_id' => 'required|exists:categories,id',
             'supplier_id' => 'required|exists:suppliers,id',
-            'name' => 'required|string|max:255',
-            'stock' => 'required|integer|min:0',
-            'unit' => 'nullable|string|max:50',
-            'price' => 'nullable|numeric|min:0',
+            'name'       => 'required|string|max:255',
+            'stock'      => 'required|integer|min:0',
+            'unit'       => 'nullable|string|max:50',
+            'price'      => 'nullable|numeric|min:0',
         ]);
 
-        $barang = Barang::create($data);
-        return response()->json($barang, 201);
+        Barang::create($data);
+
+        return redirect()->route('barangs.index')
+                         ->with('success','Barang berhasil ditambahkan');
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Barang $barang)
-    {
-        $barang->load('category','supplier');
-        return response()->json($barang);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
+     * Form edit barang.
      */
     public function edit(Barang $barang)
     {
-        //
+        $categories = Category::all();
+        $suppliers  = Supplier::all();
+        return view('barangs.edit', compact('barang','categories','suppliers'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update barang.
      */
     public function update(Request $request, Barang $barang)
     {
         $data = $request->validate([
             'category_id' => 'required|exists:categories,id',
             'supplier_id' => 'required|exists:suppliers,id',
-            'name' => 'required|string|max:255',
-            'stock' => 'required|integer|min:0',
-            'unit' => 'nullable|string|max:50',
-            'price' => 'nullable|numeric|min:0',
+            'name'       => 'required|string|max:255',
+            'stock'      => 'required|integer|min:0',
+            'unit'       => 'nullable|string|max:50',
+            'price'      => 'nullable|numeric|min:0',
         ]);
 
         $barang->update($data);
-        return response()->json($barang);
+
+        return redirect()->route('barangs.index')
+                         ->with('success','Barang berhasil diperbarui');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Hapus barang.
      */
     public function destroy(Barang $barang)
     {
         $barang->delete();
-        return response()->json(['message' => 'Barang deleted']);
+
+        return redirect()->route('barangs.index')
+                         ->with('success','Barang berhasil dihapus');
     }
 }
