@@ -12,8 +12,7 @@
           <li class="nav-item"><a href="{{ route('suppliers.index') }}" class="nav-link">Supplier</a></li>
         @else
           <li class="nav-item"><a href="{{ route('dashboard') }}" class="nav-link">Dashboard Staf</a></li>
-          <li class="nav-item"><a href="#" class="nav-link">Transaksi Masuk</a></li>
-          <li class="nav-item"><a href="#" class="nav-link">Transaksi Keluar</a></li>
+          <li class="nav-item"><a href="{{ route('transactions.index') }}" class="nav-link">Transaksi</a></li>
         @endif
 
         <li class="nav-item">

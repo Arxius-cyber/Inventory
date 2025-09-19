@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Auth;
 
 // 🔑 Login routes
@@ -30,4 +31,7 @@ Route::middleware('auth')->group(function () {
 
     // 📊 Barangs CRUD
     Route::resource('barangs', BarangController::class);
+
+Route::resource('transactions', TransactionController::class)->middleware('auth');
+
 });
