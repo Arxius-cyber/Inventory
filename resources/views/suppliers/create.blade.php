@@ -11,7 +11,7 @@
     </div>
     <div class="mb-3">
         <label for="address" class="form-label">Alamat</label>
-        <input type="address" name="address" id="address" class="form-control" required>
+        <input type="address" name="address" id="email" class="form-control" required>
     </div>
     <div class="mb-3">
         <label for="phone" class="form-label">Telepon</label>
