@@ -23,15 +23,9 @@ Route::middleware('auth')->group(function () {
             : view('dashboard.staf');
     })->name('dashboard');
 
-    // 📦 Suppliers CRUD
     Route::resource('suppliers', SupplierController::class);
-
-    // 🗂 Categories CRUD
     Route::resource('categories', CategoryController::class);
-
-    // 📊 Barangs CRUD
     Route::resource('barangs', BarangController::class);
-
-Route::resource('transactions', TransactionController::class)->middleware('auth');
+    Route::resource('transactions', TransactionController::class)->middleware('auth');
 
 });

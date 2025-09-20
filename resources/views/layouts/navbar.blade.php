@@ -10,6 +10,7 @@
           <li class="nav-item"><a href="{{ route('barangs.index') }}" class="nav-link">Kelola Barang</a></li>
           <li class="nav-item"><a href="{{ route('categories.index') }}" class="nav-link">Kategori</a></li>
           <li class="nav-item"><a href="{{ route('suppliers.index') }}" class="nav-link">Supplier</a></li>
+          <li class="nav-item"><a href="{{ route('transactions.index') }}" class="nav-link">Transaksi</a></li>
         @else
           <li class="nav-item"><a href="{{ route('dashboard') }}" class="nav-link">Dashboard Staf</a></li>
           <li class="nav-item"><a href="{{ route('transactions.index') }}" class="nav-link">Transaksi</a></li>
